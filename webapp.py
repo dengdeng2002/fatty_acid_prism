@@ -42,8 +42,13 @@ def main():
 
             explainer = shap.Explainer(best_model)
             shap_values = explainer.shap_values(df_subject)
-            shap.force_plot(explainer.expected_value[1], shap_values[1][0, :], df_subject.iloc[0, :], matplotlib=True)
-            st.pyplot(plt.gcf())
+            force_plot = shap.force_plot(
+                explainer.expected_value[1],
+                shap_values[1][0, :],
+                df_subject.iloc[0, :],
+                matplotlib=False
+            )
+            components.html(shap.getjs() + force_plot.html(), height=300)
 
     st.set_page_config(page_title='the prevalence of preserved ratio impaired spirometry')
     st.markdown(f"""
